@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Словник</title>
+</head>
+<body>
+{% for l in lexemes %}
+    <div>
+        <p><a href="show?title={{ l.lexema }}">{{ l.lexema }}</a></p>
+        <p>{{ l.part_of_speech }}</p>
+    </div>
+{% endfor %}
+</body>
+</html>
