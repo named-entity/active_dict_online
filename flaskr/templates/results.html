@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<div class="content container">
+    <p1>Результаты поиска для запроса <b>{{ title }}</b></p1>
+    <span></span>
+    <table class="table table-hover table-bordered">
+        <tr>
+            <th>header</th>
+        </tr>
+        {% for entry in results %}
+            <tr>
+                <td>
+                    <span>{{ entry[:500]|safe }}</span>
+                    <div class="card-header" id="heading-{{ loop.index }}">
+                        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse-{{ loop.index }}" aria-expanded="false" aria-controls="collapse">
+                          больше
+                        </button>
+                    </div>
+                    <div id="collapse-{{ loop.index }}" class="collapse" aria-labelledby="heading-{{ loop.index }}">
+                      <div class="card-body">
+                        <span>{{ entry[500:]|safe }}</span>
+                      </div>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

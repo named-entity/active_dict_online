@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+<div class="content container">
+    <p1>Словник<b>{{ title }}</b></p1>
+    {{ pagination.info }}
+    <table class="table table-hover table-bordered">
+        <tr>
+            <th>header</th>
+        </tr>
+        {% for entry in results %}
+            <tr>
+                <td class="mid-align"><span>{{ entry['id'] }}</span></td>
+                <td>{{ entry['lexeme'] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

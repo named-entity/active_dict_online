@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block app_content %}
+<div class="content container">
+    {% if message %} <h1>{{ message }}</h1> {% endif %}
+    <h1>Выберите параметры</h1>
+    <div>
+        <form method="post">
+            <p>
+                <label>Заголовок</label>
+                <input name="title" id="title"></input>
+            </p>
+            <p>
+                <label>Часть речи</label>
+                <select data-placeholder="Начните вводить название" multiple class="chosen-select" name="pos">
+                    <option value=""></option>
+                    <option>ГЛАГ</option>
+                    <option>МЕЖДОМ</option>
+                    <option>НАРЕЧ</option>
+                    <option>ПРЕДЛОГ</option>
+                    <option>ПРИЛ</option>
+                    <option>СОЮЗ</option>
+                    <option>СУЩ</option>
+                    <option>ЧАСТ</option>
+                    <option>ЧИСЛ</option>
+                </select>
+            </p>
+            <p>
+                <label>Найти в тексте статьи</label>
+                <input name="text" id="text"></input>
+            </p>
+            <p>
+                <input type="submit" value="Search!">
+            </p>
+        </form>
+    </div>
+</div>
+{% endblock %}
