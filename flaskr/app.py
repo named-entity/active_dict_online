@@ -94,10 +94,14 @@ def slovnik(page):
     # connection = mysql.connect()
     # cur = connection.cursor(pymysql.cursors.DictCursor)
     cur = get_db().cursor()
-    cur.execute("SELECT * FROM dictionary")
+    cur.execute("SELECT id FROM dictionary")
+    total = len(cur.fetchall())
+    per_page = 50
+    start = page * per_page - per_page
+    cur.execute("SELECT * FROM dictionary LIMIT %d OFFSET %d" % (per_page, start))
     results = [{'id': l[0], 'lexeme': l[1]} for l in cur.fetchall()]
-    pagination = Pagination(page=page, per_page=50, total=len(results),
-                            css_framework='bootstrap3', href='/content/page/{0}',
+    pagination = Pagination(page=page, per_page=per_page, total=total,
+                            css_framework='bootstrap4', href='/content/page/{0}',
                             display_msg="")
     return render_template('slovnik.html', results=results, pagination=pagination)
 
