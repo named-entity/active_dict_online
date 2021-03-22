@@ -11,8 +11,6 @@ from flask_paginate import Pagination, get_page_parameter
 # import pymysql
 from pymorphy2 import MorphAnalyzer
 
-app = Flask(__name__, instance_relative_config=True)
-
 DATABASE = 'AS1.db'
 
 
@@ -21,6 +19,16 @@ def get_db():
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
     return db
+
+
+def get_words():
+    cur = get_db().cursor()
+    cur.execute("SELECT id FROM dictionary")
+    total_words = len(cur.fetchall())
+    return total_words
+
+
+app = Flask(__name__, instance_relative_config=True)
 
 # cparser = configparser.RawConfigParser()
 # cparser.read('%s/.my.cnf' % os.environ["HOME"])
@@ -35,7 +43,6 @@ def get_db():
 
 bootstrap = Bootstrap(app)
 morph = MorphAnalyzer()
-
 
 @app.route('/')
 def hello():
@@ -54,35 +61,38 @@ def search():
         where_clauses = []
         results = []
         if title:
+            title_condition = []
             for a in morph.parse(title):
                 l = a.normal_form
-                where_clauses.append(
+                title_condition.append(
                     # "lexema_lemmas LIKE '%%%s%%" % l
                     "lexeme_lemmas LIKE '%%%s%%'" % l
                 )
+            where_clauses.append('(' + '  OR '.join(title_condition) + ')')
 
         if tags:
+            tags_condition = []
             for t in tags.split(','):
-                where_clauses.append(
+                tags_condition.append(
                     # "part_of_speech LIKE '%%%s%%'" % t
                     "pos LIKE '%%%s%%'" % t
                 )
+            where_clauses.append('(' + ' OR '.join(tags_condition) + ')')
         if text:
+            text_condition = []
             for t in text.split():
-                where_clauses.append(
+                text_condition.append(
                     "text_lemmas LIKE '%%%s%%'" % t
                 )
+            where_clauses.append('(' + ' OR '.join(text_condition) + ')')
+
         if not where_clauses:
             return render_template("search.html", message="Пустой запрос!")
-        query = "SELECT * FROM for_search WHERE %s" % " or ".join(where_clauses)
-        print(query)
+        query = "SELECT * FROM for_search WHERE %s" % " AND ".join(where_clauses)
         cur.execute(query)
         for i in cur.fetchall():
             # results.append(i['html'].decode())
             results.append(i[-1])
-        print(len(results))
-        cur.execute("SELECT lexeme_lemmas FROM for_search")
-        print(cur.fetchall())
         return render_template('results.html', results=results, title=title)
     if request.method == 'GET':
         return render_template('search.html')
@@ -94,14 +104,11 @@ def slovnik(page):
     # connection = mysql.connect()
     # cur = connection.cursor(pymysql.cursors.DictCursor)
     cur = get_db().cursor()
-    cur.execute("SELECT id FROM dictionary")
-    total = len(cur.fetchall())
     per_page = 50
     start = page * per_page - per_page
-    cur.execute("SELECT * FROM dictionary LIMIT %d OFFSET %d" % (per_page, start))
+    cur.execute("SELECT id, lexeme FROM dictionary LIMIT %d OFFSET %d" % (per_page, start))
     results = [{'id': l[0], 'lexeme': l[1]} for l in cur.fetchall()]
-    pagination = Pagination(page=page, per_page=per_page, total=total,
+    pagination = Pagination(page=page, per_page=per_page, total=get_words(),
                             css_framework='bootstrap4', href='/content/page/{0}',
                             display_msg="")
     return render_template('slovnik.html', results=results, pagination=pagination)
-
