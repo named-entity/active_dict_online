@@ -13,7 +13,7 @@ from pymorphy2 import MorphAnalyzer
 
 app = Flask(__name__, instance_relative_config=True)
 
-DATABASE = 'example.db'
+DATABASE = 'AS1.db'
 
 
 def get_db():
