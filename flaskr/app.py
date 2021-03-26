@@ -65,14 +65,13 @@ def search():
             title_condition = []
             title_condition.append(
                     # "lexema_lemmas LIKE '%%%s%%" % l
-                "lexeme_lemmas='s'" % title
+                "lexeme_lemmas='%s'" % title
             )
             where_clauses.append('(' + '  OR '.join(title_condition) + ')')
         if pomety:
             pomety_condition = []
             pomety_condition.append(
-                    # "lexema_lemmas LIKE '%%%s%%" % l
-                "tags='s'" % pomety
+                "tags LIKE '%%%s%%'" % pomety
             )
             where_clauses.append('(' + '  OR '.join(pomety_condition) + ')')
         if tags:
