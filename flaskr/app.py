@@ -116,3 +116,11 @@ def slovnik(page):
                             css_framework='bootstrap4', href='/content/page/{0}',
                             display_msg="")
     return render_template('slovnik.html', results=results, pagination=pagination)
+
+
+@app.route('/content/<str:word_id>')
+def word_page(word_id):
+    cur = get_db().cursor()
+    cur.execute("SELECT id, html FROM dictionary WHERE id='%s'" % word_id)
+    results = [{'id': l[0], 'html': l[1]} for l in cur.fetchall()]
+    return render_template('word.html', results=results)

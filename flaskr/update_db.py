@@ -9,14 +9,23 @@ from pymorphy2.tokenizers import simple_word_tokenize
 def strip_accents(s):
     result = ''
     prev_c = ''
+    prev = ''
     for c in unicodedata.normalize('NFD', s):
         cat = unicodedata.category(c)
+        if prev in 'иИ' and c == '\u0306':
+            result = result[:-1]
+            result += 'й'
+            prev_c = cat
+            prev = c
+            continue
         if prev_c == 'Mn' and c == ' ':
             prev_c = cat
+            prev = c
             continue
         if cat != 'Mn':
             result += c
-        prev_c =cat
+        prev_c = cat
+        prev = c
     return result
 
 
@@ -45,12 +54,13 @@ for a in data:
     cur.execute("INSERT INTO dictionary VALUES (?,?,?,?,?,?)", a)
     # (a['id'], a['lexema'], a['pos'], a['tags'], a['text'], a['html']))
 
-    lemmas = m.normal_forms(strip_accents(a[1].lower()))
+    # lemmas = m.normal_forms(strip_accents(a[1].lower()))
+    lemmas = strip_accents(a[1].lower())
     text_lemmas = []
     for t in simple_word_tokenize(a[4]):
         text_lemmas.append(' '.join(m.normal_forms(t)))
     cur.execute("INSERT INTO for_search VALUES (?,?,?,?,?,?,?,?)",
-                (a[0], a[1], ' '.join(lemmas), a[2], a[3], a[4], ' '.join(text_lemmas), a[5]))
+                (a[0], a[1], lemmas, a[2], a[3], a[4], ' '.join(text_lemmas), a[5]))
 
     # Save (commit) the changes
     con.commit()
