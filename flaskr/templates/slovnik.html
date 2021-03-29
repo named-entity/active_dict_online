@@ -28,7 +28,7 @@
         </tr>
         {% for entry in results %}
             <tr>
-                <td class="mid-align"><span>{{ entry['id'] }}</span></td>
+                <td class="mid-align"><a href="/content/{{ entry['id'] }}">{{ entry['id'] }}</a></td>
                 <td>{{ entry['lexeme'] }}</td>
             </tr>
         {% endfor %}

@@ -118,7 +118,7 @@ def slovnik(page):
     return render_template('slovnik.html', results=results, pagination=pagination)
 
 
-@app.route('/content/<str:word_id>')
+@app.route('/content/<word_id>')
 def word_page(word_id):
     cur = get_db().cursor()
     cur.execute("SELECT id, html FROM dictionary WHERE id='%s'" % word_id)
