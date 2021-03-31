@@ -70,9 +70,11 @@ def search():
             where_clauses.append('(' + '  OR '.join(title_condition) + ')')
         if pomety:
             pomety_condition = []
-            pomety_condition.append(
-                "tags LIKE '%%%s%%'" % pomety
-            )
+            for p in pomety.split():
+                p = p.strip('.')
+                pomety_condition.append(
+                    "text LIKE '%%%s.%%'" % p
+                )
             where_clauses.append('(' + '  OR '.join(pomety_condition) + ')')
         if tags:
             tags_condition = []
@@ -93,6 +95,7 @@ def search():
         if not where_clauses:
             return render_template("search.html", message="Пустой запрос!")
         query = "SELECT * FROM for_search WHERE %s" % " AND ".join(where_clauses)
+        print(query)
         cur.execute(query)
         for i in cur.fetchall():
             # results.append(i['html'].decode())

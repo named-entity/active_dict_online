@@ -55,7 +55,7 @@ for a in data:
     # (a['id'], a['lexema'], a['pos'], a['tags'], a['text'], a['html']))
 
     # lemmas = m.normal_forms(strip_accents(a[1].lower()))
-    lemmas = strip_accents(a[1].lower())
+    lemmas = strip_accents(a[1].lower()).strip()
     text_lemmas = []
     for t in simple_word_tokenize(a[4]):
         text_lemmas.append(' '.join(m.normal_forms(t)))
