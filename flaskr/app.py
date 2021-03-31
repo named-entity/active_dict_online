@@ -65,7 +65,7 @@ def search():
             title_condition = []
             title_condition.append(
                     # "lexema_lemmas LIKE '%%%s%%" % l
-                "lexeme_lemmas='%s'" % title
+                "lexeme_lemmas='%s'" % title.lower()
             )
             where_clauses.append('(' + '  OR '.join(title_condition) + ')')
         if pomety:
