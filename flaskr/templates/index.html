@@ -3,27 +3,59 @@
 {% block navbar %}
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="/">АС</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="nav navbar-nav justify-content-center">
-            <li class="nav-item"><a class="nav-link active" href="/">О проекте</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('search') }}">Поиск</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ url_for('slovnik') }}">Словник</a></li>
+                <li class="nav-item"><a class="nav-link active" href="/">О проекте</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('search') }}">Поиск</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('slovnik') }}">Словник</a></li>
             </ul>
         </div>
     </nav>
 {% endblock %}
 
 {% block app_content %}
-<div class="content container">
-    <h1>О проекте</h1>
-    <div>
-        <p>
-            TBD
-        </p>
+    <div class="content container">
+        <h1>О проекте</h1>
+        <br>
+        <div>
+            <p style="text-indent: 30px;">
+                Данный сайт предоставляет возможность поиска по электронной версии Активного словаря русского языка. На
+                вкладке Поиск можно осуществить поиск словарных статей по различным опциям, которые более детально
+                описаны в самой вкладке. На вкладке Словник находится список всех словарных статей.</p>
+            <p style="text-indent: 30px;">Активный словарь русского языка разрабатывался с опорой на важнейшие
+                достижения отечественной и
+                европейской лексикографии и с учетом результатов современной теоретической лингвистики во всех важных
+                для лексикографии областях. Словарь ставит своей целью сообщение такого объема сведений о каждом
+                включенном в него слове в каждом из фиксируемых в словаре значений, которые необходимы не только для
+                понимания этого слова в произвольном контексте, но и для его правильного использования в собственной
+                речи говорящих. Он содержит полную информацию о следующих свойствах слова:
+            <ul>
+                <li>его грамматических формах;</li>
+                <li>его специфической просодии – в тех редких случаях, когда такая специфика имеет место;</li>
+                <li>его значениях в форме развернутых аналитических толкований;</li>
+                <li>закономерных видоизменениях лексических значений и значений грамматических форм в определенных
+                    контекстуальных условиях;
+                </li>
+                <li>управлении и вариантах управления в данном лексическом значении, если они возможны;</li>
+                <li>специфичных для слова в данном значении синтаксических конструкциях;</li>
+                <li>лексико-семантической сочетаемости слова в данном значении;</li>
+                <li>прагматических условиях его употребления;</li>
+                <li>его «лексическом мире» (синонимах, аналогах, антонимах, дериватах и других семантически связанных
+                    с ним словах).
+                </li>
+            </ul>
+            Каждая такая словарная статья снабжена обширными иллюстрациями из «Национального корпуса
+            русского языка».</p>
+            <p style="text-indent: 30px;">Предлагаемый словарь адресован самой широкой аудитории, профессионально или
+                практически имеющей дело с
+                русским языком, – от школьных учителей, редакторов, переводчиков до рядового носителя языка, который
+                хочет правильно говорить по-русски.
+            </p>
+        </div>
     </div>
-</div>
 {% endblock %}
